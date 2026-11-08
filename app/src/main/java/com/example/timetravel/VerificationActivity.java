@@ -21,6 +21,7 @@ public class VerificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
 
+        // Initialisation des composants
         txtNom = findViewById(R.id.txt_nom_ia);
         txtAge = findViewById(R.id.txt_age_ia);
         txtMotif = findViewById(R.id.txt_motif_ia);
@@ -28,6 +29,7 @@ public class VerificationActivity extends AppCompatActivity {
         btnApprouver = findViewById(R.id.btn_approuver_ia);
         btnRefuser = findViewById(R.id.btn_refuser_ia);
 
+        // Récupération des données reçues
         Intent intent = getIntent();
 
         nomVoyageur = intent.getStringExtra(
@@ -46,23 +48,28 @@ public class VerificationActivity extends AppCompatActivity {
                 IntentKeys.key(IntentKeys.MATRICULE, "MOTIF")
         );
 
-        // Calcul de l'âge temporel
-        ageTemporel = anneeDestination - anneeNaissance;
+        // Calcul de la différence temporelle
+        ageTemporel = Math.abs(anneeDestination - anneeNaissance);
 
+        // Affichage des informations
         txtNom.setText("Voyageur : " + nomVoyageur);
         txtAge.setText("Âge temporel : " + ageTemporel + " ans");
         txtMotif.setText("Motif : " + motifVoyage);
 
-        // Vérification du paradoxe
-        if (motifVoyage.equals("Modification du passé")
+        // Vérification du paradoxe temporel
+        if ("Modification du passé".equals(motifVoyage)
                 && estPremier(ageTemporel)) {
 
             btnApprouver.setEnabled(false);
             btnApprouver.setText("Saut interdit : paradoxe !");
+        } else {
+            btnApprouver.setEnabled(true);
         }
 
+        // Bouton Approuver
         btnApprouver.setOnClickListener(v -> envoyerVerdict(true));
 
+        // Bouton Refuser
         btnRefuser.setOnClickListener(v -> envoyerVerdict(false));
     }
 
@@ -74,6 +81,7 @@ public class VerificationActivity extends AppCompatActivity {
         }
 
         for (int i = 2; i <= Math.sqrt(nombre); i++) {
+
             if (nombre % i == 0) {
                 return false;
             }
@@ -82,6 +90,7 @@ public class VerificationActivity extends AppCompatActivity {
         return true;
     }
 
+    // Envoi du verdict vers ResultActivity
     private void envoyerVerdict(boolean verdict) {
 
         Intent intent = new Intent(

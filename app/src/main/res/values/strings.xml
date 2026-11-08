@@ -27,8 +27,7 @@
 
     <string-array name="motifs">
         <item>Tourisme</item>
-        <item>Recherche</item>
-        <item>Affaires</item>
-        <item>Sauvetage</item>
+        <item>Modification du passé</item>
+        <item>Fuite</item>
     </string-array>
 </resources>
